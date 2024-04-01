@@ -1,0 +1,14 @@
+.form-item {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  margin-top: .5rem;
+}
+
+.form-item input {
+  max-width: 300px;
+}
+
+button {
+  margin-top: 1rem;
+}
