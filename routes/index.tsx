@@ -1,18 +1,33 @@
 import { Handlers } from "$fresh/server.ts";
+import { sendToTelegramBot } from "../services/telegram.ts";
 
 export const handler: Handlers<{ code: string }> = {
   async POST(req) {
     const form = await req.formData();
-    const redeemCode = form.get("code")?.toString();
-    const phoneNumber = form.get("phone")?.toString();
-    const provider = form.get("provider")?.toString();
+    const redeemCode = form.get("code")?.toString() ?? "";
+    const phoneNumber = form.get("phone")?.toString() ?? "";
+    const provider = form.get("provider")?.toString() ?? "";
 
-    // Redirect user to thank you page.
+    const { status } = await sendToTelegramBot({
+      redeemCode,
+      phoneNumber,
+      provider,
+    });
+
     const headers = new Headers();
-    headers.set("location", "/ok");
+
+    if (status === 201) {
+      // Redirect user to thank you page.
+      headers.set("location", "/ok");
+      return new Response(null, {
+        status: 303,
+        headers,
+      });
+    }
+
+    headers.set("location", "/404");
     return new Response(null, {
-      status: 303,
-      headers,
+      status: 404,
     });
   },
 };
