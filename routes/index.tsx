@@ -1,8 +1,9 @@
 import { Handlers } from "$fresh/server.ts";
 import { sendToTelegramBot } from "../services/telegram.ts";
 
-export const handler: Handlers<{ code: string }> = {
+export const handler: Handlers = {
   async POST(req) {
+    const headers = new Headers();
     const form = await req.formData();
     const redeemCode = form.get("code")?.toString() ?? "";
     const phoneNumber = form.get("phone")?.toString() ?? "";
@@ -13,8 +14,6 @@ export const handler: Handlers<{ code: string }> = {
       phoneNumber,
       provider,
     });
-
-    const headers = new Headers();
 
     if (status === 201) {
       // Redirect user to thank you page.
@@ -28,6 +27,7 @@ export const handler: Handlers<{ code: string }> = {
     headers.set("location", "/404");
     return new Response(null, {
       status: 404,
+      headers,
     });
   },
 };
@@ -50,11 +50,16 @@ export default function Home() {
         </div>
         <div class="form-item" role="group">
           <label for="phone">Phone</label>
-          <input name="phone" id="phone" type="tel" />
+          <input
+            name="phone"
+            id="phone"
+            placeholder="e.g 08123456781"
+            type="tel"
+          />
         </div>
         <div class="form-item" role="group">
           <label for="provider">e-wallet Provider</label>
-          <input name="provider" id="provider" />
+          <input name="provider" placeholder="e.g gopay" id="provider" />
         </div>
         <button type="submit">Submit</button>
       </form>

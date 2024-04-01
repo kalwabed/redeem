@@ -1,3 +1,5 @@
+import { validateEscapedText } from "../utils/regex.ts";
+
 export async function sendToTelegramBot(
   data: { redeemCode: string; provider: string; phoneNumber: string },
 ) {
@@ -5,23 +7,12 @@ export async function sendToTelegramBot(
   const botToken = Deno.env.get("BOT_TOKEN");
   const botGroupId = Deno.env.get("BOT_GROUP_ID");
 
-  const escapedText = (text: string) => {
-    // Escape special characters to avoid regex confusion
-
-    // This line replaces characters that have special meanings in regular expressions
-    // with a backslash followed by the character itself. This ensures they are treated
-    // literally in the search.
-
-    // Examples of escaped characters: "*", "[", "]", ".", "+" etc.
-    return text.replace(/[\_\*\[\]\(\)\~\`\>\#\+\-\=\|\{\}\.]/g, "\\$&");
-  };
-
   // reference https://core.telegram.org/bots/api#sendmessage
   const text = `
 *Someone is in need of their prizes*
-Code: ||${escapedText(redeemCode)}||
-Provider: ||${escapedText(provider)}||
-Phone number: ||${escapedText(phoneNumber)}||
+Code: ||${validateEscapedText(redeemCode)}||
+Provider: ||${validateEscapedText(provider)}||
+Phone number: ||${validateEscapedText(phoneNumber)}||
               `;
 
   if (botGroupId && botToken) {
