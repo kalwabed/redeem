@@ -29,8 +29,8 @@ input {
 input {
   border: 1px solid var(--dark);
   background-color: var(--lesslight);
-  border-radius: .25em;
-  padding: .5em;
+  border-radius: 0.25em;
+  padding: 0.5em;
 }
 
 pre {
@@ -68,13 +68,13 @@ img {
 
 button,
 .button,
-input[type=submit] {
+input[type="submit"] {
   display: inline-block;
   background-color: var(--dark);
   color: var(--light);
   text-align: center;
-  padding: .5em;
-  border-radius: .25em;
+  padding: 0.5em;
+  border-radius: 0.25em;
   text-decoration: none;
   border: none;
   cursor: pointer;
@@ -82,15 +82,15 @@ input[type=submit] {
 
 button:hover,
 .button:hover,
-input[type=submit]:hover {
+input[type="submit"]:hover {
   color: var(--lesslight);
   background-color: var(--moredark);
 }
 
 /* Add a margin between side-by-side buttons */
-button+button,
-.button+.button,
-input[type=submit]+input[type=submit] {
+button + button,
+.button + .button,
+input[type="submit"] + input[type="submit"] {
   margin-left: 1em;
 }
 
@@ -115,7 +115,6 @@ input[type=submit]+input[type=submit] {
   font-weight: bold;
 }
 
-
 /* Desktop sizes */
 @media (min-width: 600px) {
   ol.twocol {
@@ -130,14 +129,14 @@ input[type=submit]+input[type=submit] {
   }
 
   /* Make everything in a row a column */
-  .row>* {
+  .row > * {
     display: block;
     flex: 1 1 auto;
     max-width: 100%;
     width: 100%;
   }
 
-  .row>*:not(:last-child) {
+  .row > *:not(:last-child) {
     margin-right: 10px;
   }
 }
@@ -154,7 +153,7 @@ input[type=submit]+input[type=submit] {
   /* This fixes an odd blue then white shadow on FF in dark mode */
   *:focus {
     outline: var(--light);
-    box-shadow: 0 0 0 .25em var(--link);
+    box-shadow: 0 0 0 0.25em var(--link);
   }
 }
 
